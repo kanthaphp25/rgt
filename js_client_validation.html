@@ -1,0 +1,94 @@
+
+<form method="post" action=" ">
+Name:<input type="text" name="name" id="name"onblur="validate()"/>
+<span style="color:red" id="n_err"></span><br>
+Mobile:<input type="varchar" name="mobile"id="mobile"onblur="validmobile()"/>
+<span style="color:red" id="m_err"></span><br>
+Email:<input type="varchar" name="email">
+<span style="color:red" id="e_err"></span><br>
+Password:<input type="password" name="password"><br/>
+<input type="button" name="register" value="register">
+</form>
+<script>
+ function validate()
+ {
+	var res=true;
+	var name=document.getElementById('name').value;	
+	var n_len=name.length;	
+	var n_exp=/^[a-zA-Z]+$/;	
+	if(name=="")
+	{
+	res=false;
+	document.getElementById('n_err').innerHTML='Name is required ';
+	}
+	else
+	{	
+		if(name!="")
+		{	
+			if(n_len>5)
+			{
+			res=false;
+			document.getElementById('n_err').innerHTML='Enter name less than five letters only';
+			}
+			else
+			{
+				if(!n_exp.test(name))
+				{
+				res=false;
+				document.getElementById('n_err').innerHTML='Enter name valid data';
+				}
+				else
+				{
+				document.getElementById('n_err').innerHTML="";	
+				}
+			}
+		}				
+		else
+		{
+		document.getElementById('n_err').innerHTML="";	
+		}
+
+	}
+	return res;	
+}
+function validmobile()
+{		
+var res=true;
+var mobile=document.getElementById('mobile').value;	
+var m_exp=/^[0-9]+$/;
+var m_len=mobile.length;
+if(mobile=="")
+	{
+	res=false;
+	document.getElementById('m_err').innerHTML='mobile number is required ';
+	}
+	else
+	{	
+		if(mobile!="")
+		{
+			if(m_len!=10)
+			{
+			res=false;
+			document.getElementById('m_err').innerHTML='Mobile number should be 10 numbers only';
+			}
+			else
+			{
+				if(!m_exp.test(mobile))
+				{
+				res=false;
+				document.getElementById('m_err').innerHTML='Enter valid mobile number ';			
+				}
+				else
+				{
+				document.getElementById('m_err').innerHTML="";	
+				}
+			}
+		}
+		else
+		{
+		document.getElementById('m_err').innerHTML="";	
+		}
+	}	
+	return res;	
+}
+	</script>
