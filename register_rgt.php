@@ -1,15 +1,18 @@
+
 <?php
 require_once 'includes/includes.php';
 extract($_POST);
+// print_r($_POST);exit;
 define ('SITE_ROOT', realpath(dirname(__FILE__)));
 
 //echo SITE_ROOT;exit;
-if(isset($add_user_submit)){
-	$user_role = $role;
+if(isset($adduser)){
 	$sql_get="SELECT email,mobile FROM user_table WHERE user_id='".$_SESSION['user_id']."'";
 }
-else if(!empty($register)){
-	$user_role = 0;
+else if(isset($register)){
+	$sql_get="SELECT * FROM user_table WHERE mobile='".$mobile."' or email='".$email."'";
+	}
+else if(isset($updateuser)){
 	$sql_get="SELECT * FROM user_table WHERE mobile='".$mobile."' or email='".$email."'";
 	}
 	
@@ -38,9 +41,11 @@ else if(!empty($register)){
 	{
 		$file_name = '';
 	}
-	
+	if(isset($sql_get))
+	{
 			$res=mysqli_query($db,$sql_get);
 			$row=mysqli_fetch_assoc($res);
+			// echo "<pre>";print_r($row);exit;
 			if($email!=$row['email'] && $mobile!=$row['mobile'])
 			{
 				$sql_post="insert into user_table(
@@ -55,15 +60,22 @@ else if(!empty($register)){
 				'".form_str($name)."',
 				'".form_str($mobile)."',
 				'".form_str($email)."',
-				'".form_str($password)."',
-				'".form_str($user_role)."',
+				'".form_str(md5($password))."',
+				'".form_str($role)."',
 				'".form_str($address)."',
 				'".form_str($dob)."',
 				'".form_str($file_name)."'
 				)";
 				$mqr=mysqli_query($db,$sql_post) or die(mysqli_error());
 				if($mqr)
+				{
+					$last_id = mysqli_insert_id($mqr);
+					$_SESSION['user_id']=$last_id;
+					$_SESSION['name']=$name;	
+					$_SESSION['role'] = $role;	
+
 					header('location:profile_rgt.php');
+				}
 				else
 					echo "Account creation failed";
 			}
@@ -73,5 +85,9 @@ else if(!empty($register)){
 				//header('location:'.$_SERVER['HTTP_REFERER'].'?user=existed_user');
 			}
 		
-	
+	}
+	else
+	{
+		header('location:'.$_SERVER['HTTP_REFERER']);
+	}
 ?>

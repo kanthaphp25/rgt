@@ -21,8 +21,12 @@ table {
 <th>Address</th>
 <th>Date of birth</th>
 <th>Profile picture</th>
+<?php 
+if($_SESSION['role'] !=3 && $_SESSION['role'] !=0){
+?>
 <th>Modifiers</th>
 <?php
+}
 //echo phpinfo();die;
 if(empty($_SESSION['user_id']))
 {
@@ -60,11 +64,15 @@ $countr=mysqli_num_rows($resultset);
 			<td><img src="uploads/<?php echo $row['profile_picture'];?>" alt="Girl in a jacket" width="100" height="100"></td>
 <?php
 		}
-		else{?>
+		else{
+			?>
 			<td><img src="uploads/img_avatar.png" alt="Girl in a jacket" width="100" height="100"></td>
 		<?php
+		
 		}			
 		
+					if($_SESSION['role'] !=3 && $_SESSION['role'] !=0){
+
 ?>
 			<td>
 				<button><a href="delete_record_rgt.php?userid=<?php echo $row['user_id'];?>">Delete</a></button>
@@ -73,13 +81,22 @@ $countr=mysqli_num_rows($resultset);
 				<button><a href="update_record_rgt.php?userid=<?php echo $row['user_id'];?>">Update</a></button>
 				<?php 
 				}
+				else if($_SESSION['role'] == 3)
+				{
+					?>
+				<button><a href="update_record_rgt.php?userid=<?php echo $row['user_id'];?>">Update</a></button>
+					<?php
+				}
 				if($row['role'] != 1 & $row['role'] != 2 & $row['authorization'] == 0){	
 				?>
 					<button><a href="approve_user_rgt.php?userid=<?php echo $row['user_id'];?>">Approve</a></button>
 			</td>
+			<?php
+					}
+				}
+			?>
 			</tr>
 			<?php
-				}
 			
 		}
 	}
@@ -165,7 +182,7 @@ $countr=mysqli_num_rows($resultset);
                                     </div>
                                 </div>
                                 <div class="form-group text-center">
-                                    <input type="submit" class="btn btn-md btn-success" name="add_user_submit" placeholder="Submit">
+                                    <input type="submit" class="btn btn-md btn-success" name="adduser" placeholder="Submit">
                                 </div>
                             </form>
         </div>

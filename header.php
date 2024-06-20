@@ -85,7 +85,10 @@ if(isset($_SESSION['role'])){
 
 	?>
   <div class="header-right">
-    <a class="active" href="profile_rgt.php">Home</a>
+  
+    <a class="active" href="user_profile.php">Profile</a>
+    <a  href="emp_details.php">Emplyees List</a>
+    <a  href="profile_rgt.php">Users List</a>
 	<a href="change_password_rgt.php" target="_self" title="CHANGE PASSWORD">CHANGE PASSWORD</a>
 	<a href="logout_rgt.php" title="LOGOUT">LOGOUT</a>
   </div>
