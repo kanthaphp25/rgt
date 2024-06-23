@@ -1,6 +1,6 @@
 
 <?php
-//echo md5('Reddy@225');exit;
+// echo md5('123');exit;
 extract($_POST);
 
 //echo '<pre>';print_r($_POST);die;
@@ -36,7 +36,7 @@ setcookie('user_id',$id,time()+200);
 header('location:profile_rgt.php');
 }
 else
-	echo "login failed";
+	echo "<p style='color:red;'>login failed";
 }
 ?>
 
@@ -49,6 +49,7 @@ else
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="./js/validation.js" type="text/javascript"></script>
 
 <style>
 h1 p{color:white;background-color:green;}
@@ -69,9 +70,10 @@ form {
 <h1><p> WELCOME TO RGT</p></h1>
 <form method="post" action="" class="pb-modalreglog-form-reg">
 	<div class="form-group">
-		<label> Email or Mobiel</label>
+		<label> Email or Mobiel<span id="name-info"
+                    class="validation-message"></span></label>
 		<div class="input-group pb-modalreglog-input-group">
-			<input type="text" class="form-control" name="email">
+			<input type="text" class="form-control" id="email_mobile" name="email">
 		</div>
 	</div>
 	<div class="form-group">
@@ -82,12 +84,28 @@ form {
 	</div>
 	<div class="form-group ">
 		<div class="input-group pb-modalreglog-input-group text-center" >
-			<input  type="submit" name="login" value="login" class="btn btn-success btn-md login">
+			<input  type="submit" name="login" onclick="validate();" value="login" class="btn btn-success btn-md login">
 			&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="register.php" id="reg">Get signup...?</a>
+			<a href="new_user_register.php" id="reg">Get signup...?</a>
 		</div>
 	</div>
 </form>
   </div>
 </body>
 </html>
+<script>
+$(document).ready(function(){
+function validate() {
+	var valid = true;
+	$(".info").html('');
+
+	if (!$("#email_mobile").val()) {
+		$("#name-info").html("required.");
+		valid = false;
+	}
+	return valid;
+}
+
+});
+</script>
+

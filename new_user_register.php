@@ -18,7 +18,7 @@ h1 p{padding-left:150px;color:white;background-color:green;}
 
 </style>	
 <body>
-<h1><p> User Registration</p></h1>
+<h1><p> WELCOME TO RGT</p></h1>
 	<form method="post" action="register_rgt.php" enctype="multipart/form-data" class="pb-modalreglog-form-reg">
 		<div class="form-group">
 			<label>User name</label>
@@ -70,12 +70,22 @@ h1 p{padding-left:150px;color:white;background-color:green;}
 			<label >Image</label>
 			<div class="input-group pb-modalreglog-input-group">
 				<input type="text" name="userid" class="form-control" style="display:none;"placeholder="profile picture">
-				<input type="file" name="user_image" class="form-control" placeholder="profile picture">
-			</div>
+				<input type="file"  onchange="preview();"name="user_image" class="form-control" placeholder="profile picture">
+				<img id="thumb" src="" width="150px"/>
+		</div>
 		</div>
 		<div class="form-group text-center">
 			<input type="submit" class="btn btn-md btn-success" name="register" placeholder="Submit">
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="login_rgt.php" id="reg">Already registered...?</a>
 		</div>
 	</form>
 </body>
 </html>
+<script>
+function preview() {
+   thumb.src=URL.createObjectURL(event.target.files[0]);
+   $("#thumb").show();
+}
+$("#thumb").hide();
+</script>

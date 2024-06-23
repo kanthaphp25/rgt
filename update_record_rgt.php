@@ -44,7 +44,8 @@ else
 				}
 				if(empty($err_message))
 				{
-					 move_uploaded_file($file_tmp,SITE_ROOT.'\upload'.$file_name);
+					$rootfolder = SITE_ROOT."\\uploads\\".$file_name;
+					 move_uploaded_file($file_tmp,$rootfolder);
 				}
 		}
 		else
@@ -143,7 +144,8 @@ else
 			<label >Image</label>
 			<div class="input-group pb-modalreglog-input-group">
 				<input type="text" name="userid" class="form-control" value="<?php echo $row['user_id'];?>"style="display:none;"placeholder="profile picture">
-				<input type="file" name="user_image" class="form-control" placeholder="profile picture">
+				<input type="file" onchange="preview()" name="user_image" class="form-control" placeholder="profile picture">
+				<img id="thumb" src="" width="150px"/>
 			</div>
 		</div>
 		<div class="form-group text-center">
@@ -153,3 +155,10 @@ else
 <?php
 		}
 ?>
+<script>
+function preview() {
+   thumb.src=URL.createObjectURL(event.target.files[0]);
+   $("#thumb").show();
+}
+$("#thumb").hide();
+</script>

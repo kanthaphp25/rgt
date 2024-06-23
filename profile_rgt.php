@@ -1,4 +1,5 @@
-<?php require_once 'includes/includes.php'; ?>
+<?php 
+require_once 'includes/includes.php'; ?>
 <html>
 <head>
 <style>
@@ -108,7 +109,7 @@ $countr=mysqli_num_rows($resultset);
 	}
 }
 ?>
-
+</table>
 <div class="container">
   <!-- Trigger the modal with a button -->
 
@@ -178,8 +179,9 @@ $countr=mysqli_num_rows($resultset);
                                 <div class="form-group">
                                     <label >Image</label>
                                     <div class="input-group pb-modalreglog-input-group">
-                                        <input type="file" name="user_image" class="form-control" placeholder="profile picture">
-                                    </div>
+                                        <input type="file" onchange="preview();" name="user_image" class="form-control" placeholder="profile picture">
+                                   		<img id="thumb" src="" width="150px"/>
+								   </div>
                                 </div>
                                 <div class="form-group text-center">
                                     <input type="submit" class="btn btn-md btn-success" name="adduser" placeholder="Submit">
@@ -199,18 +201,9 @@ $countr=mysqli_num_rows($resultset);
 </body>
 </html>
 <script>
-/* checkIfPHPVariableIsEmpty('".$existeduser."');
-
-function checkIfPHPVariableIsEmpty(variable) {
-  // Check if the variable is undefined or null
-  if (variable === undefined || variable === null) {
-    alert('true');
-	//return true;
-	}
-	else
-	{
-		alert('user already existing');
-		
-	}
-  }
- */</script>
+function preview() {
+   thumb.src=URL.createObjectURL(event.target.files[0]);
+   $("#thumb").show();
+}
+$("#thumb").hide();
+</script>

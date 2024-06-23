@@ -1,4 +1,4 @@
-<?php
+<?
 require_once 'includes/includes.php';
 if(empty($_SESSION["user_id"]))
 {

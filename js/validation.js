@@ -2,7 +2,7 @@ function validate() {
 	var valid = true;
 	$(".info").html('');
 
-	if (!$("#name").val()) {
+	if (!$("#email_mobile").val()) {
 		$("#name-info").html("required.");
 		valid = false;
 	}

@@ -1,20 +1,4 @@
 <?php
-
-/**
- * Copyright (C) Phppot
- *
- * Distributed under 'The MIT License'
- * In essence you can modify, distribute, and use for commercial purposes.
- * Though not mandatory, you are requested to
- * attribute Phppot URL https://phppot.com in your code or website.
- */
-
-/**
- * A lightweight generic datasource class for handling database operations.
- * Uses MySqli or PDO and PreparedStatements.
- *
- * @version 3.2 - Namespace removed.
- */
 class DataSource
 {
 
@@ -128,7 +112,7 @@ class DataSource
     {
         $statement = $this->execute($query, $paramType, $paramArray);
         $result = $statement->get_result();
-
+// print_r($result);exit;
         if ($result->num_rows > 0) {
             $resultset = null;
             while ($row = $result->fetch_assoc()) {
