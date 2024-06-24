@@ -1,9 +1,17 @@
 <?php
-// echo "<pre>"; print_r($_POST);exit;
 require_once 'includes/includes.php';
 ?>
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"
+    type="text/javascript"></script>
+<script src="./js/validation.js" type="text/javascript"></script>
 <style>
 .link {padding: 10px 15px;background: transparent;border:#bccfd8 1px solid;border-left:0px;cursor:pointer;color:#607d8b}
 .disabled {cursor:not-allowed;color: #bccfd8;}
@@ -18,6 +26,8 @@ th, td {
     padding: 10px !important;
 	border:2px solid;
 }
+
+
 </style>
 <script>
 function getresult(url) {
@@ -40,25 +50,16 @@ function getresult(url) {
 		url: url,
 		type: "GET",
 		data:  {'url':url,rowcount:row_count,"pagination_setting":page_sttings,'emp_name':empnameid,'emp_id':empid},
-	success: function(response){
-		let data = $.parseJSON(response);
-		$.each(response, function(id,val) {
-		var html = '<tr>';
-		 html += '<td>'+val.emp_id+'</td>';
-		 html += '<td>'+val.emp_name+'</td>';
-		 html += '<td>'+val.mobile+'</td>';
-		 html += '<td>'+val.email+'</td>';
-		 html += '<td>'+val.blood_group+'</td>';
-		 html += '<td>'+val.designation+'</td>';
-		 html += '<td>'+val.address+'</td></tr>';
-		 $('#table_data').prepend(html);
-		});
-		}
+		beforeSend: function(){$("#overlay").show();},
+    	success: function(data){
+	// console.log(data);
+		$("#paginationresult").html(data);
+		setInterval(function() {$("#overlay").hide(); },500);
+		},
 		error: function() 
 		{} 	        
-
-		});
-   }
+   });
+}
 function changePagination(option) {
 	if(option!= "") {
 		getresult("getresult.php");
@@ -66,7 +67,8 @@ function changePagination(option) {
 }
 </script>
 </head>
-<body> 
+<body>
+<div id="overlay"><div><img src="loading.gif" width="64px" height="64px"/></div></div>
 <div class="page-content">
 	<div style="border-bottom: #F0F0F0 1px solid;margin-bottom: 15px;">
 	Pagination Setting:<br> <select name="pagination-setting" onChange="changePagination(this.value);" class="pagination-setting" id="pagination-setting">
@@ -100,55 +102,5 @@ function changePagination(option) {
 <script>
 getresult("getresult.php");
 </script>
-<table border="1" class="table table-striped table-bordered">
-    <thead>
-     <tr>
-		<th>Employee Id</th>
-		<th>Emp Name</th>
-		<th>MOBILE</th>
-		<th>EMAIL</th>
-		<th>Blood Group</th>
-		<th>Designation</th>
-		<th>Address</th>
-     </tr>
-    </thead>
-    <tbody id="table_data">
-    </tbody>
-   </table>
-   
 </body>
 </html>
-
-<script>
-		getresult("getresult.php");
-
-$(document).ready(function(){
-
-function update_user_activity()
-{
- $.ajax({
-  url:"emp_search_filtter.php",
-  type:'GET',
- data:{'empaj':'empaj'},
-  method:"get",
-	success: function(response){
-		let data = $.parseJSON(response);
-		$.each(response, function(id,val) {
-		var html = '<tr>';
-		 html += '<td>'+val.emp_id+'</td>';
-		 html += '<td>'+val.emp_name+'</td>';
-		 html += '<td>'+val.mobile+'</td>';
-		 html += '<td>'+val.email+'</td>';
-		 html += '<td>'+val.blood_group+'</td>';
-		 html += '<td>'+val.designation+'</td>';
-		 html += '<td>'+val.address+'</td></tr>';
-		 $('#table_data').prepend(html);
-		});
-		} 
-	});
-}
- update_user_activity();
-
-
-});
-</script>

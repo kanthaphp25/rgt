@@ -106,5 +106,43 @@ if($pagination_setting == "prev-next") {
 } else {
 	$perpageresult = $perPage->getAllPageLinks($_GET["rowcount"], $paginationlink,$pagination_setting);	
 }
-echo json_encode($faq);
+
+$output = '
+    <table class="stripped">
+        <thead>
+            <tr>
+                <th>emp_id</th>
+                <th>emp_name</th>
+                <th>mobile</th>
+                <th>email</th>
+                <th>designation</th>
+                <th>blood_group</th>
+                <th>date_of_birth</th>
+                <th>date_of_joining</th>
+                <th>address</th>
+            </tr>
+        </thead>
+        <tbody id="paginationresult">
+
+';
+foreach($faq as $k=>$v) {
+ $output .= '<div class="question"><input type="hidden" id="rowcount" name="rowcount" value="' . $_GET["rowcount"] . '" /></div>';
+ // $output .= '<div class="answer">' . $faq[$k]["emp_name"] . '</div>';
+ $output .= '
+ <td>' . $faq[$k]["emp_id"] . '</td>';
+ $output .= '<td>' . $faq[$k]["emp_name"] . '</td>';
+ $output .= '<td>' . $faq[$k]["mobile"] . '</td>';
+ $output .= '<td>' . $faq[$k]["email"] . '</td>';
+ $output .= '<td>' . $faq[$k]["designation"] . '</td>';
+ $output .= '<td>' . $faq[$k]["blood_group"] . '</td>';
+ $output .= '<td>' . $faq[$k]["date_of_birth"] . '</td>';
+ $output .= '<td>' . $faq[$k]["date_of_joining"] . '</td>';
+ $output .= '<td>' . $faq[$k]["address"] . '</td></tr> ';
+}
+$output .='</tbody>
+    </table>';
+if(!empty($perpageresult)) {
+$output .= '<div id="pagination">' . $perpageresult . '</div>';
+}
+echo  $output;
 ?>

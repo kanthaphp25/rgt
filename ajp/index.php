@@ -1,6 +1,8 @@
 <?php
-require_once 'rgt/includes/includes.php';
+require_once 'includes/includes.php';
+
 ?>
+
 <HTML>
 <HEAD>
 <TITLE>AJAX Pagination with PHP</TITLE>
