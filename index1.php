@@ -68,7 +68,7 @@ function changePagination(option) {
 </script>
 </head>
 <body>
-<div id="overlay"><div><img src="loading.gif" width="64px" height="64px"/></div></div>
+<!--<div id="overlay"><div><img src="loading.gif" width="64px" height="64px"/></div></div>-->
 <div class="page-content">
 	<div style="border-bottom: #F0F0F0 1px solid;margin-bottom: 15px;">
 	Pagination Setting:<br> <select name="pagination-setting" onChange="changePagination(this.value);" class="pagination-setting" id="pagination-setting">

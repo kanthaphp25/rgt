@@ -24,44 +24,112 @@ function getresult(url) {
 	var page_sttings = $("#pagination-setting").val();
 	var row_count = $("#rowcount").val();
 
-	// var empsearch = $("input[name='search[]']")
-              // .map(function(){return $(this).val();}).get();;
-			  if(url != 'getresult.php' )
-			  {
-	var empnameid = $("#empname_id").val();
-	var empid = $("#empid").val();
-			  }else
-			  {
-	var empnameid = '';
-	var empid = '';
-			  }
+	  if(url != 'jsaj_emp_read_data.php' )
+	  {
+		var empnameid = $("#empname_id").val();
+		var empid = $("#empid").val();
+	  }
+	  else
+	  {
+		var empnameid = '';
+		var empid = '';
+	  }
 	// console.log(url+'  -  '+empnameid+' - '+empid);
 	$.ajax({
 		url: url,
 		type: "GET",
 		data:  {'url':url,rowcount:row_count,"pagination_setting":page_sttings,'emp_name':empnameid,'emp_id':empid},
-	success: function(response){
-		let data = $.parseJSON(response);
-		$.each(response, function(id,val) {
-		var html = '<tr>';
-		 html += '<td>'+val.emp_id+'</td>';
-		 html += '<td>'+val.emp_name+'</td>';
-		 html += '<td>'+val.mobile+'</td>';
-		 html += '<td>'+val.email+'</td>';
-		 html += '<td>'+val.blood_group+'</td>';
-		 html += '<td>'+val.designation+'</td>';
-		 html += '<td>'+val.address+'</td></tr>';
-		 $('#table_data').prepend(html);
-		});
-		}
-		error: function() 
-		{} 	        
+		success: function(response){
+			// alert(response);
+			// console.log(response);
+			let data = $.parseJSON(response);
+			// console.log(data.pagination);
+			var row = '';
+				$.each(data.resultset, function(id,val) {
+				 row += '<tr>';
+				 row += '<td>'+val.emp_id+'</td>';
+				 row += '<td>'+val.emp_name+'</td>';
+				 row += '<td>'+val.mobile+'</td>';
+				 row += '<td>'+val.email+'</td>';
+				 row += '<td>'+val.blood_group+'</td>';
+				 row += '<td>'+val.designation+'</td>';
+				 row += '<td>'+val.address+'</td></tr>';
+				 $('#table_data').html(row);
+				});
+				
+				var rowcount ='';
+				rowcount += '<div class="question"><input type="hidden" id="rowcount" name="rowcount" value="' + data.rowcount.rowcount + '" /></div>';
+				$("#rowcountid").html(rowcount);
+				
+				var output = '';
+				if(data.rowcount.pagination_setting == 'all-links')
+				{
+					if(data.pagination.current_page == 1) 
+						output += '<span class="link first disabled">&#8810;</span><span class="link disabled">&#60;</span>';
+					else	
+						output += '<a class="link first" onclick="getresult(\'' + data.pagination.page_url + (1) + '\')" >&#8810;</a><a class="link" onclick="getresult(\'' + data.pagination.page_url + (data.pagination.current_page - 1) + '\')" >&#60;</a>';
+					
+					
+					if((data.pagination.current_page - 3) > 0) {
+						if(data.pagination.current_page == 1)
+							output += '<span id=1 class="link current">1</span>';
+						else				
+							output += '<a class="link" onclick="getresult(\'' + data.pagination.page_url + '1\')" >1</a>';
+					}
+					if((data.pagination.current_page-3) > 1) {
+							output +='<span class="dot">...</span>';
+					}
+						var pagecount = parseInt(data.pagination.current_page)+2;
 
+						for(var i = (data.pagination.current_page-2); i <= pagecount; i++)
+						{
+						if(i < 1) continue;
+						if(i > data.pagination.count_pages) break;
+							if(data.pagination.current_page == i)
+							{
+								output  += '<span id='+i+' class="link current">'+i+'</span>';
+							}
+							else
+							{
+							//alert("for else");
+								output  += '<a class="link" onclick="getresult(\'' + data.pagination.page_url +i + '\')" >'+i+'</a>';
+							}
+						}
+						if((data.pagination.count_pages - pagecount) > 1) {
+							output +='<span class="dot">...</span>';
+						}
+						if((data.pagination.count_pages - pagecount) > 0) {
+							if(data.pagination.current_page == data.pagination.count_pages)
+								output +='<span id=' + (data.pagination.count_pages) +' class="link current">' + (data.pagination.count_pages) +'</span>';
+							else				
+								output += '<a class="link" onclick="getresult(\'' +data.pagination.page_url+  (data.pagination.count_pages) +'\')" >' + (data.pagination.count_pages) +'</a>';
+						}
+						
+						if(data.pagination.current_page < data.pagination.count_pages)
+						 output +='<a  class="link" onclick="getresult(\''  + data.pagination.page_url + (parseInt(data.pagination.current_page)+1) + '\')" >></a><a  class="link" onclick="getresult(\'' + data.pagination.page_url  + (data.pagination.count_pages) + '\')" >&#8811;</a>';
+						else				
+						output +='<span class="link disabled">></span><span class="link disabled">&#8811;</span>';
+						
+				}
+				if(data.rowcount.pagination_setting == 'prev-next')
+				{
+					if(data.pagination.current_page == 1) 
+						output +='<span class="link disabled first">Prev</span>';
+					else	
+						output +='<a class="link first" onclick="getresult(\'' + data.pagination.page_url + (data.pagination.current_page-1) + '\')" >Prev</a>';			
+					
+					if(data.pagination.current_page < data.pagination.count_pages)
+						output +='<a  class="link" onclick="getresult(\'' + data.pagination.page_url + (parseInt(data.pagination.current_page)+1) + '\')" >Next</a>';
+					else				
+						output +='<span class="link disabled">Next</span>';
+				}
+						$("#pagination-result").html(output);
+			}
 		});
    }
 function changePagination(option) {
 	if(option!= "") {
-		getresult("getresult.php");
+		getresult("jsaj_emp_read_data.php");
 	}
 }
 </script>
@@ -85,21 +153,14 @@ function changePagination(option) {
 			<input type="text" id="empid" placeholder="emp id" name="search[emp_id]"
 			value="" /> 
 			
-			<input type="button" name="go" onclick="getresult('getresult.php?page=1')" class="btnSearch" value="Search">
+			<input type="button" name="go" onclick="getresult('jsaj_emp_read_data.php?page=1')" class="btnSearch" value="Search">
 			
-			<input type="reset" onclick="getresult('getresult.php')" 
+			<input type="reset" onclick="getresult('jsaj_emp_read_data.php')" 
 			class="btnReset" value="Reset">
         </p>
     </div>
-	<div id="paginationresult"></div>
-	<div id="pagination-result">
-		<input type="hidden" name="rowcount" id="rowcount" />
-	</div>
 </form>
 
-<script>
-getresult("getresult.php");
-</script>
 <table border="1" class="table table-striped table-bordered">
     <thead>
      <tr>
@@ -115,40 +176,14 @@ getresult("getresult.php");
     <tbody id="table_data">
     </tbody>
    </table>
-   
+	<div id="rowcountid"></div>
+	<div id="paginationresult"></div>
+	<div id="pagination-result">
+		<input type="hidden" name="rowcount" id="rowcount" />
+	</div>
 </body>
 </html>
 
 <script>
-		getresult("getresult.php");
-
-$(document).ready(function(){
-
-function update_user_activity()
-{
- $.ajax({
-  url:"emp_search_filtter.php",
-  type:'GET',
- data:{'empaj':'empaj'},
-  method:"get",
-	success: function(response){
-		let data = $.parseJSON(response);
-		$.each(response, function(id,val) {
-		var html = '<tr>';
-		 html += '<td>'+val.emp_id+'</td>';
-		 html += '<td>'+val.emp_name+'</td>';
-		 html += '<td>'+val.mobile+'</td>';
-		 html += '<td>'+val.email+'</td>';
-		 html += '<td>'+val.blood_group+'</td>';
-		 html += '<td>'+val.designation+'</td>';
-		 html += '<td>'+val.address+'</td></tr>';
-		 $('#table_data').prepend(html);
-		});
-		} 
-	});
-}
- update_user_activity();
-
-
-});
+	getresult("jsaj_emp_read_data.php");
 </script>

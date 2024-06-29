@@ -145,7 +145,7 @@ if($_SESSION['role'] == 1 & $plink == strtolower($link)
     <a  class="menu userm" href="profile_rgt.php">Users List</a>
     <a  class="menu" href="emp_details.php">Emp List</a>
     <a  class="menu" href="index1.php">Jsaj Html rendaring</a>
-    <a  class="menu"  href="jsaj_emp_list.php">JsAj Emp List</a>
+    <a  class="menu"  href="jsaj_emp_list.php">Jsaj Json rendaring</a>
     <a  class="menu " style="display: none;" href="jsaj_bfiledata_ulist.php">JsAj Bfile Ulist </a>
 	<a class="menu" href="change_password_rgt.php" target="_self" title="CHANGE PASSWORD">Change pwd</a>
 	<a class="menu" href="logout_rgt.php" title="LOGOUT">LOGOUT</a>
